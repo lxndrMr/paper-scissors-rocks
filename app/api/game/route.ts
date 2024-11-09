@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/app/lib/db";
-import { getWinner, getComputerChoice } from "@/app/lib/gameLogic"; // Logique du jeu
+import { getWinner, getComputerChoice } from "@/app/lib/gameLogic";
 import { Choice, GameResult } from "@/app/lib/types";
 
 export async function GET(req: NextRequest) {

@@ -2,6 +2,26 @@ import { Choice } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export async function submitUsername(username: string) {
+  try {
+    const response = await fetch(`${API_URL}/user`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error submitting username", error);
+    throw error;
+  }
+}
+
 export async function getPlayerHighScore(username: string) {
   try {
     const response = await fetch(`${API_URL}/game?username=${username}`, {

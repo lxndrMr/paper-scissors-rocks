@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { submitUsername } from "@/app/lib/fetchService";
 
 export default function HomePage() {
   const [username, setUsername] = useState("");
@@ -16,24 +17,18 @@ export default function HomePage() {
     }
 
     try {
-      const response = await fetch("/api/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username }),
-      });
+      const data = await submitUsername(username)
 
-      const data = await response.json();
-      if (response.ok) {
+      if (data.username) {
         router.push(`/game?username=${username}`);
       } else {
-        console.error(data.message);
+        console.error("Failed to submit username");
       }
     } catch (error) {
       console.error("Error during username submission", error);
     }
   };
+
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
