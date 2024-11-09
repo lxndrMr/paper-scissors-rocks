@@ -1,10 +1,3 @@
-export const choices = ["paper", "scissors", "rock"] as const;
-
-export type Choice = (typeof choices)[number];
-
+export type Choice = "rock" | "paper" | "scissors";
+export const choices: Choice[] = ["rock", "paper", "scissors"];
 export type GameResult = "Win" | "Lose" | "Draw";
-
-export type GameState = {
-  victoryStreak: number;
-  gameOver: boolean;
-};
