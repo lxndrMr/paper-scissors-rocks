@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SideLeaderboard from "./ui/SideLeaderboard";
 
 export const metadata: Metadata = {
   title: "Paper | Scissors | Rocks",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SideLeaderboard />
+        {children}
+      </body>
     </html>
   );
 }

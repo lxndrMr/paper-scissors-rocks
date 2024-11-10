@@ -80,3 +80,22 @@ export async function resetGame(username: string) {
     throw error;
   }
 }
+
+export async function fetchLeaderboard() {
+  try {
+    const response = await fetch(`${API_URL}/leaderboard`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching leaderboard", error);
+    throw error;
+  }
+} 

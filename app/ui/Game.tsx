@@ -9,7 +9,7 @@ import {
 } from "@/app/lib/fetchService";
 import { Choice } from "@/app/lib/types";
 
-export default function GameComponent() {
+export default function Game() {
   const [playerChoice, setPlayerChoice] = useState<Choice | null>(null);
   const [gameResult, setGameResult] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
