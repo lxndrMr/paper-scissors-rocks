@@ -1,38 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Leaderboard } from "@/app/lib/types";
-import { fetchLeaderboard } from "@/app/lib/fetchService";
+import { useLeaderboard } from "@/app/context/LeaderboardContext";
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const SideLeaderboard = () => {
-  const [leaderboard, setLeaderboard] = useState<Leaderboard[]>([]);
+  const { leaderboard } = useLeaderboard();
 
-  useEffect(() => {
-    const getLeaderboardData = async () => {
-      const data = await fetchLeaderboard();
-      setLeaderboard(data);
-    };
-    getLeaderboardData();
-  }, []);
   return (
-    <div>
-      <h2>Leaderboard</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Highest Streak</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="m-4">
+      <Table>
+      <TableCaption>🏆</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Player</TableHead>
+            <TableHead>Highest Streak</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {leaderboard.map((player, index) => (
-            <tr key={index}>
-              <td>{player.username}</td>
-              <td>{player.higheststreak}</td>
-            </tr>
+            <TableRow key={index}>
+              <TableCell>{player.username}</TableCell>
+              <TableCell>{player.higheststreak}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Choice } from "./types";
+import { Choice } from "@/app/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 

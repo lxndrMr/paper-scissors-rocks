@@ -1,4 +1,4 @@
-import pool from "./db";
+import pool from "@/app/lib/db";
 
 export async function addPlayer(username: string) {
   try {
