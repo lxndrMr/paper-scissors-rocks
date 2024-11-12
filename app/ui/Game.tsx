@@ -113,7 +113,7 @@ export default function Game() {
         <p className="col-start-1 col-span-2 text-center mb-4">
           Your Choice: {playerChoice ? choiceEmojis[playerChoice] : "❓"}
         </p>
-        <p className="col-start-4 col-span-2 text-center">
+        <div className="col-start-4 col-span-2 text-center">
           Computer&apos;s Choice:{" "}
           {isWaiting ? (
             <div className="spinner inline-block "></div>
@@ -122,7 +122,7 @@ export default function Game() {
           ) : (
             "❓"
           )}
-        </p>
+        </div>
 
         <Button
           className="col-start-1"

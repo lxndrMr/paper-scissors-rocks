@@ -22,18 +22,25 @@ const SideLeaderboard = () => {
   };
 
   return (
-    <div className="m-4 flex flex-col justify-center ">
-      <TableCaption onClick={toggleVisibility} className="cursor-pointer mb-4">
-        🏆
-      </TableCaption>
-      {isVisible && (
-        <Table>
+    <div className="m-4">
+      <Table>
+        <TableCaption>
+          <span
+            onClick={toggleVisibility}
+            className="mt-4 font-bold text-2xl text-foreground cursor-pointer mb-4"
+          >
+            🏆
+          </span>
+        </TableCaption>
+        {isVisible && (
           <TableHeader>
             <TableRow>
               <TableHead>Player</TableHead>
               <TableHead>Highest Streak</TableHead>
             </TableRow>
           </TableHeader>
+        )}
+        {isVisible && (
           <TableBody>
             {leaderboard.map((player, index) => (
               <TableRow key={index}>
@@ -42,8 +49,8 @@ const SideLeaderboard = () => {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
-      )}
+        )}
+      </Table>
     </div>
   );
 };
