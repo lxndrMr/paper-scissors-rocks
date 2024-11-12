@@ -1,15 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { submitUsername } from "@/app/lib/fetchService";
+import { submitUsername } from "@/app/service/fetchService";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const UserSchema = z.object({
+  username: z.string().min(3, {
+    message: "Username must be at least 3 characters.",
+  }),
+});
 
 export default function FormUsername() {
-  const [username, setUsername] = useState("");
+  const form = useForm<z.infer<typeof UserSchema>>({
+    resolver: zodResolver(UserSchema),
+    defaultValues: {
+      username: "",
+    },
+  });
+
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (values: z.infer<typeof UserSchema>) => {
+    const { username } = values;
 
     if (!username) {
       console.error("Username is required!");
@@ -17,7 +43,7 @@ export default function FormUsername() {
     }
 
     try {
-      const data = await submitUsername(username)
+      const data = await submitUsername(username);
 
       if (data.username) {
         router.push(`/game?username=${username}`);
@@ -30,19 +56,24 @@ export default function FormUsername() {
   };
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
-      <form onSubmit={handleSubmit} className="flex flex-col items-center">
-        <label htmlFor="username">Username:</label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter your username"
-          required
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 flex flex-col items-center justify-center bg-black rounded-lg p-8 w-full max-w-72">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="flex justify-center text-2xl text-orange-500">Username</FormLabel>
+              <FormControl>
+                <Input className="text-white" placeholder="Username" {...field} />
+              </FormControl>
+              <FormDescription>Enter your username</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <button type="submit">Start Game</button>
+        <Button type="submit">Submit</Button>
       </form>
-    </div>
+    </Form>
   );
 }

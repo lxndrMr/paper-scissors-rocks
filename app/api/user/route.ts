@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addPlayer } from "@/app/lib/userService";
+import { addPlayer } from "@/app/service/userService";
 
 export async function POST(req: NextRequest) {
   try {

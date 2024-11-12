@@ -5,3 +5,8 @@ export type Leaderboard = {
   username: string;
   higheststreak: number;
 };
+
+export type TLeaderboardContext = {
+  leaderboard: Leaderboard[];
+  updateLeaderboard: () => Promise<void>;
+}

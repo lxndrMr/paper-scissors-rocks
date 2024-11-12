@@ -1,38 +1,49 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Leaderboard } from "@/app/lib/types";
-import { fetchLeaderboard } from "@/app/lib/fetchService";
+import { useState } from "react";
+import { useLeaderboard } from "@/app/context/LeaderboardContext";
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const SideLeaderboard = () => {
-  const [leaderboard, setLeaderboard] = useState<Leaderboard[]>([]);
+  const { leaderboard } = useLeaderboard();
+  const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
-    const getLeaderboardData = async () => {
-      const data = await fetchLeaderboard();
-      setLeaderboard(data);
-    };
-    getLeaderboardData();
-  }, []);
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
   return (
-    <div>
-      <h2>Leaderboard</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Highest Streak</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboard.map((player, index) => (
-            <tr key={index}>
-              <td>{player.username}</td>
-              <td>{player.higheststreak}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="m-4 flex flex-col justify-center ">
+      <TableCaption onClick={toggleVisibility} className="cursor-pointer mb-4">
+        🏆
+      </TableCaption>
+      {isVisible && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Player</TableHead>
+              <TableHead>Highest Streak</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {leaderboard.map((player, index) => (
+              <TableRow key={index}>
+                <TableCell>{player.username}</TableCell>
+                <TableCell>{player.higheststreak}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };
