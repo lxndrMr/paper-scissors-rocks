@@ -23,7 +23,13 @@ npm install
 ### 4. Create a .env file:
 You can copy `.env.sample` as starters and fill in your own values.
 
-### 5. Run the application:
+### 5. Create a database:
+if you haven't already created the database specified in POSTGRES_DB, crete it by running the following command:
+```bash
+psql -U your_db_user -c "CREATE DATABASE your_db_name;"
+```
+
+### 6. Run the application:
 ```bash
 npm run dev
 ```
