@@ -65,7 +65,7 @@ export default function FormUsername() {
             <FormItem className="flex flex-col">
               <FormLabel className="flex justify-center text-2xl text-orange-500">Username</FormLabel>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input className="text-white" placeholder="Username" {...field} />
               </FormControl>
               <FormDescription>Enter your username</FormDescription>
               <FormMessage />

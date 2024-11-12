@@ -20,10 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <LeaderboardProvider>
         <body className="flex h-screen flex-col md:flex-row md:overflow-hidden bg-orange-50">
-          <div className="w-full flex-none md:w-64 bg-orange-600 text-white border-2 border-slate-400 rounded-lg">
+          <header className="flex-none m-4 md:w-64 bg-orange-600 text-white border-2 border-slate-400 rounded-lg">
             <SideLeaderboard />
-          </div>
+          </header>
           <div className="bg-foreground flex-grow p-6 md:overflow-y-auto md:p-12">
+            <h1 className="text-center text-4xl mb-8 tracking-wider">Paper | Scissors | Rocks</h1>
             {children}
           </div>
         </body>

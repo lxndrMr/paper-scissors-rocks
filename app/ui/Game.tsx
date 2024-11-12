@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLeaderboard } from "../context/LeaderboardContext";
 import {
   playGame,
   resetGame,
@@ -9,7 +10,6 @@ import {
 } from "@/app/service/fetchService";
 import { Choice } from "@/app/lib/types";
 import { Button } from "@/components/ui/button";
-import { useLeaderboard } from "../context/LeaderboardContext";
 
 const choiceEmojis = {
   rock: "✊",
@@ -115,11 +115,13 @@ export default function Game() {
         </p>
         <p className="col-start-4 col-span-2 text-center">
           Computer&apos;s Choice:{" "}
-          {isWaiting
-            ? "🤔"
-            : computerChoice
-            ? choiceEmojis[computerChoice]
-            : "❓"}
+          {isWaiting ? (
+            <div className="spinner inline-block "></div>
+          ) : computerChoice ? (
+            choiceEmojis[computerChoice]
+          ) : (
+            "❓"
+          )}
         </p>
 
         <Button
