@@ -5,7 +5,6 @@ import Game from "@/app/ui/Game"; // Assure-toi d'importer correctement le compo
 import { useSearchParams } from "next/navigation"; // Utilisation du hook de navigation de Next.js
 import { useEffect, useState } from "react"; // Importer useEffect et useState
 
-export const dynamic = "force-dynamic";
 
 export default function GamePage() {
   const searchParams = useSearchParams();
