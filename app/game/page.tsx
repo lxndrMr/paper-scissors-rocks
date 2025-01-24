@@ -1,22 +1,36 @@
+"use client"
+
 import { getPlayerHighScore } from "@/app/service/fetchService"; // Assure-toi d'importer correctement
 import Game from "@/app/ui/Game"; // Assure-toi d'importer correctement le composant
+import { useSearchParams } from "next/navigation"; // Utilisation du hook de navigation de Next.js
+import { useEffect, useState } from "react"; // Importer useEffect et useState
 
-export default async function GamePage({ searchParams }: { searchParams: { username?: string } }) {
-  // Récupération du paramètre username depuis searchParams
-  const username = searchParams.username;
-  
-  // Vérifie si un username est présent dans les searchParams
-  if (!username || Array.isArray(username)) {
-    throw new Error('Invalid username');
-  }
+export default function GamePage() {
+  const searchParams = useSearchParams();
+  const username = searchParams.get("username");
 
-  // Récupère le highestStreak via ta fonction
-  let highestStreak = 0;
+  const [highestStreak, setHighestStreak] = useState<number | null>(null);
 
-  try {
-    highestStreak = await getPlayerHighScore(username); // Assurez-vous que cette fonction retourne un nombre
-  } catch (error) {
-    console.error("Error fetching highest streak:", error);
+  useEffect(() => {
+    if (!username) {
+      // Si le paramètre username est manquant, tu peux rediriger ou afficher une erreur
+      return;
+    }
+
+    const fetchHighestStreak = async () => {
+      try {
+        const streak = await getPlayerHighScore(username);
+        setHighestStreak(streak);
+      } catch (error) {
+        console.error("Error fetching highest streak:", error);
+      }
+    };
+
+    fetchHighestStreak();
+  }, [username]); // Cette logique ne sera exécutée que si `username` change
+
+  if (highestStreak === null) {
+    return <div>Loading...</div>; // Affiche un message pendant le chargement des données
   }
 
   return (

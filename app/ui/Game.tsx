@@ -23,7 +23,7 @@ const resultEmojis = {
 };
 
 interface GameProps {
-  username: string;
+  username: string | null;
   highestStreak: number;
 }
 
