@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useLeaderboard } from "../context/LeaderboardContext";
 import {
   playGame,
   resetGame,
-  getPlayerHighScore,
 } from "@/app/service/fetchService";
 import { Choice } from "@/app/lib/types";
 import { Button } from "@/components/ui/button";
@@ -23,38 +22,29 @@ const resultEmojis = {
   Draw: "😐",
 };
 
-export default function Game() {
+interface GameProps {
+  username: string;
+  highestStreak: number;
+}
+
+export default function Game({ username, highestStreak }: GameProps) {
   const [playerChoice, setPlayerChoice] = useState<Choice | null>(null);
   const [computerChoice, setComputerChoice] = useState<Choice | null>(null);
   const [gameResult, setGameResult] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
-  const [highestStreak, setHightestStreak] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const username = searchParams.get("username");
-
   const { updateLeaderboard } = useLeaderboard();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!username) {
-      router.push("/");
-      return;
-    }
-
-    const getHighestStreak = async () => {
-      try {
-        const highestStreak = await getPlayerHighScore(username);
-        setHightestStreak(highestStreak);
-      } catch (error) {
-        console.error("Error getting player highest streak", error);
-      }
-    };
-
-    getHighestStreak();
-  }, [username, router]);
+    setScore(0);
+    setGameResult(null);
+    setPlayerChoice(null);
+    setComputerChoice(null);
+    setGameOver(false);
+  }, [username]); // Réinitialise l'état lorsque l'utilisateur change.
 
   const handlePlayGame = async (choice: Choice) => {
     if (!username) return;
@@ -68,7 +58,6 @@ export default function Game() {
         setComputerChoice(result.computerChoice);
         setGameResult(result.result);
         setScore(result.score);
-        setHightestStreak(result.highestStreak);
         setIsWaiting(false);
 
         updateLeaderboard();
@@ -98,6 +87,7 @@ export default function Game() {
       console.error("Error resetting the game", error);
     }
   };
+
 
   return (
     <main className="flex flex-col items-center justify-center border-2 bg-black text-white rounded-2xl p-8 w-full">

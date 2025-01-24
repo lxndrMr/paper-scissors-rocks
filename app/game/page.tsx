@@ -1,14 +1,27 @@
-import Game from "@/app/ui/Game";
+import { getPlayerHighScore } from "@/app/service/fetchService"; // Assure-toi d'importer correctement
+import Game from "@/app/ui/Game"; // Assure-toi d'importer correctement le composant
 
-export const metadata = {
-  description:
-    "Challenge yourself in the Paper-Scissors-Rock game! Compete against the computer, aim for the highest streak and test your luck!",
-};
+export default async function GamePage({ searchParams }: { searchParams: { username?: string } }) {
+  // Récupération du paramètre username depuis searchParams
+  const username = searchParams.username;
+  
+  // Vérifie si un username est présent dans les searchParams
+  if (!username || Array.isArray(username)) {
+    throw new Error('Invalid username');
+  }
 
-export default function GamePage() {
+  // Récupère le highestStreak via ta fonction
+  let highestStreak = 0;
+
+  try {
+    highestStreak = await getPlayerHighScore(username); // Assurez-vous que cette fonction retourne un nombre
+  } catch (error) {
+    console.error("Error fetching highest streak:", error);
+  }
+
   return (
     <div>
-      <Game />
+      <Game username={username} highestStreak={highestStreak} />
     </div>
   );
 }
