@@ -25,8 +25,10 @@ const pool = new Pool({
   port: !connectionString ? parseInt(POSTGRES_PORT || "5432") : undefined,
   ssl:
     process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: false }
-      : false, // SSL uniquement en prod
+      ? {
+          rejectUnauthorized: false, // Accepter les certificats auto-signés
+        }
+      : false,
 });
 
 async function createPlayerTable() {
