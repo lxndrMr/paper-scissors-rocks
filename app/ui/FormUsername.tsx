@@ -1,10 +1,10 @@
 "use client";
 
+import { submitUsername } from "@/app/service/fetchService";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
-import { submitUsername } from "@/app/service/fetchService";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -57,15 +57,24 @@ export default function FormUsername() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 flex flex-col items-center justify-center bg-black rounded-lg p-8 w-full max-w-72">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 flex flex-col items-center justify-center bg-black rounded-lg p-8 w-full max-w-72"
+      >
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel className="flex justify-center text-2xl text-orange-500">Username</FormLabel>
+              <FormLabel className="flex justify-center text-2xl text-orange-500">
+                Username
+              </FormLabel>
               <FormControl>
-                <Input className="text-white" placeholder="Username" {...field} />
+                <Input
+                  className="text-white"
+                  placeholder="Username"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>Enter your username</FormDescription>
               <FormMessage />
