@@ -22,6 +22,8 @@ const resultEmojis = {
   Draw: "😐",
 };
 
+// Just to push to main branch
+
 interface GameProps {
   username: string | null;
   highestStreak: number;
